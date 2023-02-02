@@ -36,6 +36,7 @@ client.on("ready", () => {
 
 client.on("messageCreate", async message => {
     if (message.author.bot) return;
+    if (!message.member?.moderatable) return;
 
     let handled = true;
     let tempMessage = message;
@@ -68,11 +69,11 @@ client.on("messageCreate", async message => {
 client.on("voiceStateUpdate", async (oldState, newState) => {
     if (oldState?.channelId !== newState?.channelId) {
         if (oldState.channelId && newState.channelId) {
-            Store.LogChannel?.send({ embeds: [MessageBuilder.Embed("이동", `**${oldState.member?.displayName}**님이 ${oldState.channel?.name}에서 ${newState.channel?.name}으로 이동하였습니다.`, "#99FF")] });
+            Store.LogChannel?.send({ embeds: [MessageBuilder.Embed("이동", `**${oldState.member?.displayName}**님이 **${oldState.channel?.name}**에서 **${newState.channel?.name}**으로 이동하였습니다.`, "#99FF")] });
         } else if (newState.channelId) {
-            Store.LogChannel?.send({ embeds: [MessageBuilder.Embed("입장", `**${oldState.member?.displayName}**님이 ${newState.channel?.name}에 입장하였습니다.`, "#99ff99")] });
+            Store.LogChannel?.send({ embeds: [MessageBuilder.Embed("입장", `**${oldState.member?.displayName}**님이 **${newState.channel?.name}**에 입장하였습니다.`, "#99ff99")] });
         } else {
-            Store.LogChannel?.send({ embeds: [MessageBuilder.Embed("퇴장", `**${oldState.member?.displayName}**님이 ${oldState.channel?.name}에서 퇴장하였습니다.`, "#ff9999")] });
+            Store.LogChannel?.send({ embeds: [MessageBuilder.Embed("퇴장", `**${oldState.member?.displayName}**님이 **${oldState.channel?.name}**에서 퇴장하였습니다.`, "#ff9999")] });
         }
     }
 });
